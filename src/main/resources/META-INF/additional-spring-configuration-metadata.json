@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "search.index.directory",
+  "type": "java.lang.String",
+  "description": "Default Index Directory'"
+}]}
