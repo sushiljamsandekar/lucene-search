@@ -1,5 +1,7 @@
 package com.ssj.search.contract.impl;
 
+import static com.ssj.search.util.ApplicationConstants.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,9 +23,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.ssj.search.contract.IndexFields;
 import com.ssj.search.contract.Indexer;
 import com.ssj.search.exception.SearchException;
 
+/**
+ * Index class for TEXT files
+ * @author Sushil
+ *
+ */
 @Component
 public class TextFileIndexer implements Indexer {
 
@@ -32,15 +40,18 @@ public class TextFileIndexer implements Indexer {
 	@Value("${search.index.directory}")
 	private String indexPath;
 	
-
+	/**
+	 * Document index based on required fields
+	 */
+	@Override
 	public boolean indexDocument(IndexWriter writer, Path file, long lastModified) throws SearchException {
 	    try (InputStream stream = Files.newInputStream(file)) {
 	        Document doc = new Document();
 
-	        Field pathField = new StringField("path", file.toString(), Field.Store.YES);
+	        Field pathField = new StringField(IndexFields.INDEX_FIELD_PATH, file.toString(), Field.Store.YES);
 	        doc.add(pathField);
-	        doc.add(new LongPoint("modified", lastModified));
-	        doc.add(new TextField("contents", new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))));
+	        doc.add(new LongPoint(IndexFields.INDEX_FIELD_MODIFIED, lastModified));
+	        doc.add(new TextField(IndexFields.INDEX_FIELD_CONTENTS, new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))));
 	        
 	        if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
 	          // New index, so we just add the document (no old document can be there):
@@ -51,7 +62,7 @@ public class TextFileIndexer implements Indexer {
 	        	writer.updateDocument(new Term("path", file.toString()), doc);
 	        }
 	      } catch (IOException e) {
-			throw new SearchException("7003", file.toString());
+			throw new SearchException(APP_CONST_ERROR_CODE_7003, file.toString());
 		}
 	    return Boolean.TRUE;
 	}

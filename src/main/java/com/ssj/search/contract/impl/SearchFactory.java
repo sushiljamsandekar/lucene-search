@@ -9,10 +9,16 @@ import org.springframework.stereotype.Component;
 import com.ssj.search.contract.SearchSupported;
 import com.ssj.search.contract.Searcher;
 
+/**
+ * Factory class to return instance based on search needed
+ * @author Sushil
+ *
+ */
 @Component
 public class SearchFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(IndexFactory.class);
+	
 	@Autowired
 	@Qualifier("fileSearcher")
 	private Searcher fileSearch;

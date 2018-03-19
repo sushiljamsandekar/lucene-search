@@ -9,6 +9,11 @@ import org.springframework.core.env.Environment;
 
 import com.google.common.base.Optional;
 
+/**
+ * Reads exception codes property file and uses those codes to identify the exception
+ * @author Sushil
+ *
+ */
 @Configuration
 @PropertySource("classpath:exceptioncodes.properties")
 public class SearchException extends Exception {
