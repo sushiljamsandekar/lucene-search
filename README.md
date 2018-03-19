@@ -15,3 +15,9 @@ Provide the keywords to search. Can be separated by space or comma. If exact mat
 PARAM 1: path - Mandatory, Type - String
 
 Specify the directory to be indexed. Program will traverse the directory till its end child and perform the indexing. As of now only text files are supported. Index operation is performed in its separate threadpool.
+
+## Technology Stack
+1. Java 8
+2. Spring Boot
+3. Spring MVC
+4. Lucene Core
