@@ -48,7 +48,7 @@ public class SearchServiceController {
 	 * @return
 	 */
 	@GetMapping(produces= {MediaType.APPLICATION_JSON_VALUE},path="/buildIndexForDirectory")
-	public String buildIndexForDirectory(@RequestParam String path){
+	public String buildIndexForDirectory(@RequestParam(name="path") String path){
 		return service.indexDirectory(path);
 	}
 }
